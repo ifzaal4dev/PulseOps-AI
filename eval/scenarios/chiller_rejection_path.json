@@ -1,0 +1,14 @@
+{
+  "id": "chiller_rejection_path",
+  "title": "Operator rejects the proposal: nothing executes, run completes cleanly",
+  "asset_tag": "CH-03",
+  "trigger": "eval: rejection",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": false,
+  "reject_action": true,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false
+}

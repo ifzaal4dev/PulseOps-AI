@@ -1,0 +1,16 @@
+{
+  "id": "chiller_llm_hallucinated_citation",
+  "title": "Hallucinated citation is rejected by the validator (fallback)",
+  "asset_tag": "CH-03",
+  "trigger": "eval: hallucinated citation",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": false,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false,
+  "reasoning_mode": "hybrid",
+  "fake_provider": "hallucinated_citation",
+  "expect_fallback": true
+}

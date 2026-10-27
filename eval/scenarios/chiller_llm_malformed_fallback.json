@@ -1,0 +1,16 @@
+{
+  "id": "chiller_llm_malformed_fallback",
+  "title": "Malformed LLM output fails closed to the deterministic diagnosis",
+  "asset_tag": "CH-03",
+  "trigger": "eval: malformed llm",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": false,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false,
+  "reasoning_mode": "hybrid",
+  "fake_provider": "malformed",
+  "expect_fallback": true
+}

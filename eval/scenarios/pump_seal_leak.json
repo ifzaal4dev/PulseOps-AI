@@ -1,0 +1,13 @@
+{
+  "id": "pump_pressure_drop_seal_leak",
+  "title": "Pump-07 pressure drop / mechanical seal failure (successful repair)",
+  "asset_tag": "PU-07",
+  "trigger": "eval: discharge pressure decline",
+  "expected_root_cause": "mechanical seal failure",
+  "approve_action": true,
+  "outcome_profile": "success",
+  "expected_verification_outcome": "passed",
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false
+}

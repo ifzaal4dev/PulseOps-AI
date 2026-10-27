@@ -1,0 +1,17 @@
+{
+  "id": "apu_next_best_test",
+  "title": "APU tied evidence pauses for an independent ultrasonic leak survey",
+  "asset_tag": "APU-01",
+  "trigger": "eval: next-best-test",
+  "setup": "apu_ambiguous",
+  "expected_root_cause": "compressed-air leak",
+  "approve_action": false,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false,
+  "expect_diagnostic_test": "ultrasonic_leak_survey",
+  "evidence_source": "operator",
+  "evidence_result": {"finding": "leak_detected"}
+}

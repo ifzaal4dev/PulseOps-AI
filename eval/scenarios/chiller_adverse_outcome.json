@@ -1,0 +1,14 @@
+{
+  "id": "chiller_adverse_outcome",
+  "title": "Chiller-03 approved repair that makes conditions WORSE (adverse outcome)",
+  "asset_tag": "CH-03",
+  "trigger": "eval: adverse outcome scenario",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": true,
+  "approve_only_first_action": true,
+  "outcome_profile": "adverse",
+  "expected_verification_outcome": "adverse",
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false
+}

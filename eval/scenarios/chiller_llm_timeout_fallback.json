@@ -1,0 +1,16 @@
+{
+  "id": "chiller_llm_timeout_fallback",
+  "title": "Provider timeout/unavailable falls back deterministically",
+  "asset_tag": "CH-03",
+  "trigger": "eval: llm timeout",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": false,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": false,
+  "inject_evidence": false,
+  "reasoning_mode": "hybrid",
+  "fake_provider": "unavailable",
+  "expect_fallback": true
+}

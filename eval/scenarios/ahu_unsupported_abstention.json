@@ -1,0 +1,13 @@
+{
+  "id": "ahu_unsupported_abstention",
+  "title": "AHU-05 (unsupported asset type) — agent must abstain, not fabricate a work order",
+  "asset_tag": "AHU-05",
+  "trigger": "eval: unsupported asset abstention",
+  "expected_root_cause": "",
+  "approve_action": false,
+  "outcome_profile": "success",
+  "expected_verification_outcome": null,
+  "expect_mitigated": false,
+  "expect_abstain": true,
+  "inject_evidence": false
+}

@@ -1,0 +1,13 @@
+{
+  "id": "chiller_vibration_bearing_wear",
+  "title": "Chiller-03 critical vibration / compressor bearing wear (successful repair)",
+  "asset_tag": "CH-03",
+  "trigger": "eval: critical vibration incident",
+  "expected_root_cause": "compressor bearing wear",
+  "approve_action": true,
+  "outcome_profile": "success",
+  "expected_verification_outcome": "passed",
+  "expect_mitigated": true,
+  "expect_abstain": false,
+  "inject_evidence": false
+}
