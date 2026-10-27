@@ -1,0 +1,590 @@
+{
+  "generated_at": "2026-10-27T14:41:23.545963",
+  "task": "anomaly/failure detection (NOT demonstrated early warning \u2014 see lead-time sign convention)",
+  "model_source": "metropt3_iforest_v1",
+  "feature_version": "metropt3_fw_v1",
+  "evaluated_interval": {
+    "start_exclusive": "2020-04-16 00:00:00",
+    "end": "2020-09-01 03:50:00",
+    "n_holdout_windows": 16205,
+    "note": "all metrics computed only on windows ending strictly after the healthy-validation cutoff from artifact metadata; training and threshold-calibration intervals are excluded from every denominator",
+    "raw_data_start": "2020-02-01 00:00:00"
+  },
+  "lead_time_convention": "positive hours = alert BEFORE documented onset (advance warning); negative = alert after onset (detection only)",
+  "eligible_days": 128.5,
+  "observed_days": 104.2,
+  "training_mode_windows": {
+    "loaded": 337,
+    "idle": 8734
+  },
+  "n_events": 4,
+  "policies": [
+    {
+      "policy": "iforest_global",
+      "threshold": "risk >= 0.491",
+      "threshold_selection": "99.5th percentile of healthy windows (no failure-event leakage)",
+      "event_recall": 0.75,
+      "events_detected": 3,
+      "events_missed": 1,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-04-18 00:30:00",
+          "lead_time_hours": -0.5
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-06-05 11:00:00",
+          "lead_time_hours": -1.0
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 17:10:00",
+          "lead_time_hours": -2.67
+        }
+      ],
+      "false_alarm_episodes": 23,
+      "false_alarms_per_operating_day": 0.179,
+      "false_alarms_per_observed_day": 0.221,
+      "alert_window_rate": 0.0402,
+      "outside_event_loaded_alert_rate": 0.8036,
+      "outside_event_idle_alert_rate": 0.0
+    },
+    {
+      "policy": "iforest_global_persistent",
+      "threshold": "risk >= 0.491 for 3 consecutive windows; open until < 0.393; 60 min cooldown",
+      "threshold_selection": "99.5th percentile of healthy windows (no failure-event leakage); persistence, hysteresis, and cooldown as in the app",
+      "event_recall": 0.5,
+      "events_detected": 2,
+      "events_missed": 2,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-06-05 11:20:00",
+          "lead_time_hours": -1.33
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 17:30:00",
+          "lead_time_hours": -3.0
+        }
+      ],
+      "false_alarm_episodes": 7,
+      "false_alarms_per_operating_day": 0.054,
+      "false_alarms_per_observed_day": 0.067,
+      "alert_window_rate": 0.0513,
+      "outside_event_loaded_alert_rate": 0.8081,
+      "outside_event_idle_alert_rate": 0.00014
+    },
+    {
+      "policy": "iforest_mode_conditioned",
+      "threshold": "risk >= 0.533 (loaded) / 0.351 (idle)",
+      "threshold_selection": "99.5th percentile of healthy windows (no failure-event leakage); per-mode when >= 50 healthy windows (frozen at training time)",
+      "event_recall": 0.75,
+      "events_detected": 3,
+      "events_missed": 1,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-04-17 09:40:00",
+          "lead_time_hours": 14.33
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-06-06 20:00:00",
+          "lead_time_hours": -34.0
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 01:40:00",
+          "lead_time_hours": 12.83
+        }
+      ],
+      "false_alarm_episodes": 68,
+      "false_alarms_per_operating_day": 0.529,
+      "false_alarms_per_observed_day": 0.653,
+      "alert_window_rate": 0.0463,
+      "outside_event_loaded_alert_rate": 0.012,
+      "outside_event_idle_alert_rate": 0.04345
+    },
+    {
+      "policy": "zscore_healthy_calibrated",
+      "threshold": "max|z| >= 4.363",
+      "threshold_selection": "99.5th percentile of healthy windows (no failure-event leakage)",
+      "event_recall": 0.25,
+      "events_detected": 1,
+      "events_missed": 3,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": false,
+          "first_alert": null,
+          "lead_time_hours": null
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 14:50:00",
+          "lead_time_hours": -0.33
+        }
+      ],
+      "false_alarm_episodes": 3,
+      "false_alarms_per_operating_day": 0.023,
+      "false_alarms_per_observed_day": 0.029,
+      "alert_window_rate": 0.0014,
+      "outside_event_loaded_alert_rate": 0.0075,
+      "outside_event_idle_alert_rate": 0.0
+    },
+    {
+      "policy": "zscore_3_POST_HOC",
+      "threshold": "max|z| >= 3.0",
+      "threshold_selection": "POST-HOC round number \u2014 shown for illustration only; NOT selectable without failure-event leakage",
+      "event_recall": 1.0,
+      "events_detected": 4,
+      "events_missed": 0,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-04-18 00:50:00",
+          "lead_time_hours": -0.83
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-05-29 23:40:00",
+          "lead_time_hours": -0.17
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-06-05 10:20:00",
+          "lead_time_hours": -0.33
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 00:50:00",
+          "lead_time_hours": 13.67
+        }
+      ],
+      "false_alarm_episodes": 23,
+      "false_alarms_per_operating_day": 0.179,
+      "false_alarms_per_observed_day": 0.221,
+      "alert_window_rate": 0.0731,
+      "outside_event_loaded_alert_rate": 0.9355,
+      "outside_event_idle_alert_rate": 0.00014
+    },
+    {
+      "policy": "zscore_4_POST_HOC",
+      "threshold": "max|z| >= 4.0",
+      "threshold_selection": "POST-HOC round number \u2014 shown for illustration only; NOT selectable without failure-event leakage",
+      "event_recall": 1.0,
+      "events_detected": 4,
+      "events_missed": 0,
+      "per_event": [
+        {
+          "start": "2020-04-18 00:00:00",
+          "end": "2020-04-18 23:59:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-04-18 00:50:00",
+          "lead_time_hours": -0.83
+        },
+        {
+          "start": "2020-05-29 23:30:00",
+          "end": "2020-05-30 06:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-05-29 23:50:00",
+          "lead_time_hours": -0.33
+        },
+        {
+          "start": "2020-06-05 10:00:00",
+          "end": "2020-06-07 14:30:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-06-05 10:20:00",
+          "lead_time_hours": -0.33
+        },
+        {
+          "start": "2020-07-15 14:30:00",
+          "end": "2020-07-15 19:00:00",
+          "kind": "air_leak",
+          "detected": true,
+          "first_alert": "2020-07-15 14:40:00",
+          "lead_time_hours": -0.17
+        }
+      ],
+      "false_alarm_episodes": 17,
+      "false_alarms_per_operating_day": 0.132,
+      "false_alarms_per_observed_day": 0.163,
+      "alert_window_rate": 0.0555,
+      "outside_event_loaded_alert_rate": 0.6852,
+      "outside_event_idle_alert_rate": 0.0
+    }
+  ],
+  "primary_model_monthly_alert_rate": {
+    "2020-04": 0.0025,
+    "2020-05": 0.0401,
+    "2020-06": 0.1321,
+    "2020-07": 0.0046,
+    "2020-08": 0.0011,
+    "2020-09": 0.0
+  },
+  "primary_model_false_alarm_episode_intervals": [
+    {
+      "start": "2020-04-25 01:20:00",
+      "end": "2020-04-25 01:20:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-04-29 04:00:00",
+      "end": "2020-04-29 04:00:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-10 23:10:00",
+      "end": "2020-05-10 23:20:00",
+      "n_alert_windows": 2,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-13 14:50:00",
+      "end": "2020-05-14 01:20:00",
+      "n_alert_windows": 63,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-19 02:50:00",
+      "end": "2020-05-19 02:50:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-19 10:50:00",
+      "end": "2020-05-19 10:50:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-20 00:10:00",
+      "end": "2020-05-20 00:20:00",
+      "n_alert_windows": 2,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-20 01:10:00",
+      "end": "2020-05-20 01:20:00",
+      "n_alert_windows": 2,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-20 04:00:00",
+      "end": "2020-05-20 04:20:00",
+      "n_alert_windows": 3,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-20 05:20:00",
+      "end": "2020-05-20 09:50:00",
+      "n_alert_windows": 22,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-05-20 10:30:00",
+      "end": "2020-05-20 20:00:00",
+      "n_alert_windows": 47,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-06-01 15:20:00",
+      "end": "2020-06-01 15:30:00",
+      "n_alert_windows": 2,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-06-08 12:10:00",
+      "end": "2020-06-08 13:20:00",
+      "n_alert_windows": 7,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-06-17 21:30:00",
+      "end": "2020-06-17 21:30:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-06-18 05:20:00",
+      "end": "2020-06-18 05:20:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-06-22 15:40:00",
+      "end": "2020-06-25 05:10:00",
+      "n_alert_windows": 370,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-07-07 11:30:00",
+      "end": "2020-07-07 11:30:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-07-17 05:00:00",
+      "end": "2020-07-17 05:30:00",
+      "n_alert_windows": 4,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-07-31 02:20:00",
+      "end": "2020-07-31 02:20:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-08-03 09:20:00",
+      "end": "2020-08-03 09:20:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-08-03 10:40:00",
+      "end": "2020-08-03 10:40:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-08-05 08:40:00",
+      "end": "2020-08-05 08:40:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    },
+    {
+      "start": "2020-08-17 01:50:00",
+      "end": "2020-08-17 01:50:00",
+      "n_alert_windows": 1,
+      "loaded_fraction": 1.0
+    }
+  ],
+  "primary_model_monthly_mode_alert_rate": {
+    "2020-04": {
+      "loaded": {
+        "windows": 163,
+        "alert_rate": 0.0184
+      },
+      "idle": {
+        "windows": 1460,
+        "alert_rate": 0.0007
+      }
+    },
+    "2020-05": {
+      "loaded": {
+        "windows": 262,
+        "alert_rate": 0.5458
+      },
+      "idle": {
+        "windows": 3303,
+        "alert_rate": 0.0
+      }
+    },
+    "2020-06": {
+      "loaded": {
+        "windows": 687,
+        "alert_rate": 0.7045
+      },
+      "idle": {
+        "windows": 2977,
+        "alert_rate": 0.0
+      }
+    },
+    "2020-07": {
+      "loaded": {
+        "windows": 70,
+        "alert_rate": 0.2429
+      },
+      "idle": {
+        "windows": 3629,
+        "alert_rate": 0.0
+      }
+    },
+    "2020-08": {
+      "loaded": {
+        "windows": 8,
+        "alert_rate": 0.5
+      },
+      "idle": {
+        "windows": 3640,
+        "alert_rate": 0.0
+      }
+    },
+    "2020-09": {
+      "loaded": {
+        "windows": 0,
+        "alert_rate": null
+      },
+      "idle": {
+        "windows": 6,
+        "alert_rate": 0.0
+      }
+    }
+  },
+  "primary_model_window_pr": {
+    "precision": 0.178,
+    "recall": 0.117,
+    "caveat": "windows are 10-min-step, 30-min-span and heavily autocorrelated; event-level metrics are the honest primary measure"
+  },
+  "trigger_decision": {
+    "generated_at": "2026-10-27T14:41:23.487330",
+    "model_source": "metropt3_iforest_v1",
+    "mode": "shadow",
+    "chosen_policy": null,
+    "readiness_bar": {
+      "min_event_recall": 1.0,
+      "max_false_alarms_per_day": 0.25,
+      "max_outside_event_loaded_alert_rate": 0.05
+    },
+    "readiness_by_policy": {
+      "iforest_global": {
+        "ready": false,
+        "blockers": [
+          "event recall 0.75 < 1.0",
+          "outside-event loaded alert rate 0.8036 > 0.05"
+        ]
+      },
+      "iforest_global_persistent": {
+        "ready": false,
+        "blockers": [
+          "event recall 0.5 < 1.0",
+          "outside-event loaded alert rate 0.8081 > 0.05"
+        ]
+      },
+      "iforest_mode_conditioned": {
+        "ready": false,
+        "blockers": [
+          "event recall 0.75 < 1.0",
+          "false alarms/day 0.529 > 0.25"
+        ]
+      },
+      "zscore_healthy_calibrated": {
+        "ready": false,
+        "blockers": [
+          "event recall 0.25 < 1.0"
+        ]
+      },
+      "zscore_3_POST_HOC": {
+        "ready": false,
+        "blockers": [
+          "threshold not selectable without event leakage",
+          "outside-event loaded alert rate 0.9355 > 0.05"
+        ]
+      },
+      "zscore_4_POST_HOC": {
+        "ready": false,
+        "blockers": [
+          "threshold not selectable without event leakage",
+          "outside-event loaded alert rate 0.6852 > 0.05"
+        ]
+      }
+    },
+    "rationale": "No policy met the readiness bar with a leakage-free threshold: the IsolationForest misses one event and alerts on a large fraction of healthy loaded windows; the healthy-calibrated z-score detects only 1/4 events. The artifact is retained as an EXPERIMENTAL anomaly-detection model; the app must store predictions in SHADOW MODE and must not open incidents from them automatically."
+  },
+  "limitations": [
+    "only 4 independent failure episodes (all air leaks) \u2014 recall has huge variance; no claim generalizes beyond this unit/failure mode",
+    "risk score is anomaly-based, not a calibrated failure probability",
+    "all measured detections have NEGATIVE lead time (0.5\u20132.7h after onset): this is detection, not demonstrated advance warning",
+    "alerting concentrates in loaded operation: false-alarm episodes fall in loaded windows and idle windows almost never alert, while heavy load was rare in the Feb\u2013Apr healthy training data. This is the most likely explanation for the May\u2013June rise; it has not been confirmed experimentally",
+    "the offline metrics score single-window crossings unless the policy name says otherwise; iforest_global_persistent applies the app's trigger rules",
+    "24h lead-credit window and 12h post-event exclusion are reporting choices",
+    "thresholds are selected only on healthy data; post-hoc z rows are illustration only"
+  ]
+}

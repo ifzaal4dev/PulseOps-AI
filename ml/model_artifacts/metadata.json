@@ -1,0 +1,85 @@
+{
+  "model_source": "metropt3_iforest_v1",
+  "task": "unsupervised anomaly/failure DETECTION for an APU air compressor; score is NOT a calibrated probability (only 4 independent failure episodes) and no advance-warning lead time is claimed",
+  "dataset": {
+    "name": "UCI MetroPT-3 (id 791)",
+    "license": "CC BY 4.0",
+    "zip_sha256": "aab991a970e58210de853bb8078ce0e63abb4d9412fdc5c79792dae3d8e1721a",
+    "rows": 1516948,
+    "time_start": "2020-02-01 00:00:00",
+    "time_end": "2020-09-01 03:59:50",
+    "failure_events": [
+      {
+        "id": 1,
+        "kind": "air_leak",
+        "start": "2020-04-18 00:00:00",
+        "end": "2020-04-18 23:59:00"
+      },
+      {
+        "id": 2,
+        "kind": "air_leak",
+        "start": "2020-05-29 23:30:00",
+        "end": "2020-05-30 06:00:00"
+      },
+      {
+        "id": 3,
+        "kind": "air_leak",
+        "start": "2020-06-05 10:00:00",
+        "end": "2020-06-07 14:30:00"
+      },
+      {
+        "id": 4,
+        "kind": "air_leak",
+        "start": "2020-07-15 14:30:00",
+        "end": "2020-07-15 19:00:00"
+      }
+    ],
+    "failure_events_source": "UCI ML Repository dataset page id 791 (failure reports table), https://archive.ics.uci.edu/dataset/791/metropt+3+dataset, fetched 2026-07-11"
+  },
+  "healthy_train_interval": [
+    "2020-02-01",
+    "2020-04-10"
+  ],
+  "healthy_val_interval": [
+    "2020-04-10",
+    "2020-04-16"
+  ],
+  "n_train_windows": 8390,
+  "n_val_windows": 681,
+  "calibration": {
+    "healthy_median": -0.12246612582256411,
+    "healthy_q999": 0.19086087478199124
+  },
+  "risk_semantics": "0.0 = healthy median, 0.5 = healthy 99.9th percentile, clipped to [0,1]",
+  "threshold": 0.4906437237978621,
+  "threshold_method": "99.5th percentile of held-out healthy validation risks (~0.5% healthy alert rate)",
+  "baseline_feature_stats": {
+    "Motor_current_mean": {
+      "mean": 1.6720502169939673,
+      "std": 0.9498615653684892
+    },
+    "Oil_temperature_mean": {
+      "mean": 59.50291548559939,
+      "std": 5.235994090615357
+    }
+  },
+  "baseline_threshold_z": 4.36304567544399,
+  "mode_conditioned_thresholds": {
+    "loaded": 0.5326290596028791,
+    "idle": 0.35065936822280985,
+    "loaded_calibration_windows": 337,
+    "idle_calibration_windows": 8734,
+    "min_windows_per_mode": 50,
+    "fallback": "global threshold when a mode has too few healthy windows"
+  },
+  "model_params": {
+    "algorithm": "IsolationForest",
+    "n_estimators": 300,
+    "random_state": 42,
+    "scaler": "StandardScaler"
+  },
+  "sklearn_version": "1.5.2",
+  "code_version": "de2e41e",
+  "trained_at": "2026-07-13T00:53:54.394226",
+  "training_seconds": 3.3
+}

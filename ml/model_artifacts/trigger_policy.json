@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-10-27T14:41:23.487330",
+  "model_source": "metropt3_iforest_v1",
+  "mode": "shadow",
+  "chosen_policy": null,
+  "readiness_bar": {
+    "min_event_recall": 1.0,
+    "max_false_alarms_per_day": 0.25,
+    "max_outside_event_loaded_alert_rate": 0.05
+  },
+  "readiness_by_policy": {
+    "iforest_global": {
+      "ready": false,
+      "blockers": [
+        "event recall 0.75 < 1.0",
+        "outside-event loaded alert rate 0.8036 > 0.05"
+      ]
+    },
+    "iforest_global_persistent": {
+      "ready": false,
+      "blockers": [
+        "event recall 0.5 < 1.0",
+        "outside-event loaded alert rate 0.8081 > 0.05"
+      ]
+    },
+    "iforest_mode_conditioned": {
+      "ready": false,
+      "blockers": [
+        "event recall 0.75 < 1.0",
+        "false alarms/day 0.529 > 0.25"
+      ]
+    },
+    "zscore_healthy_calibrated": {
+      "ready": false,
+      "blockers": [
+        "event recall 0.25 < 1.0"
+      ]
+    },
+    "zscore_3_POST_HOC": {
+      "ready": false,
+      "blockers": [
+        "threshold not selectable without event leakage",
+        "outside-event loaded alert rate 0.9355 > 0.05"
+      ]
+    },
+    "zscore_4_POST_HOC": {
+      "ready": false,
+      "blockers": [
+        "threshold not selectable without event leakage",
+        "outside-event loaded alert rate 0.6852 > 0.05"
+      ]
+    }
+  },
+  "rationale": "No policy met the readiness bar with a leakage-free threshold: the IsolationForest misses one event and alerts on a large fraction of healthy loaded windows; the healthy-calibrated z-score detects only 1/4 events. The artifact is retained as an EXPERIMENTAL anomaly-detection model; the app must store predictions in SHADOW MODE and must not open incidents from them automatically."
+}

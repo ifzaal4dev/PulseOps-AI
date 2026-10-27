@@ -1,0 +1,27 @@
+[project]
+name = "pulseops-ml"
+version = "0.1.0"
+description = "PulseOps flagship ML pipeline — UCI MetroPT-3 (real APU compressor telemetry)"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.1",
+    "pyarrow>=14",
+    # Model artifacts are persisted with joblib/pickle and are not guaranteed
+    # to be compatible across scikit-learn releases. Keep serving/training on
+    # the exact version recorded in model_artifacts/metadata.json.
+    "scikit-learn==1.5.2",
+    "joblib>=1.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "ruff>=0.17"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pulseops_ml*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
