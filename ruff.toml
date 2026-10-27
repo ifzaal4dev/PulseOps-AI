@@ -1,0 +1,22 @@
+# Shared lint and format settings for apps/api, ml, and eval.
+target-version = "py311"
+line-length = 100
+extend-exclude = ["apps/web"]
+
+[lint]
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # import order
+    "B",   # bugbear
+    "UP",  # pyupgrade
+]
+# Line width is the formatter's job; it leaves long string literals alone.
+ignore = ["E501"]
+
+[lint.isort]
+known-first-party = ["pulseops_api", "pulseops_ml"]
+
+[lint.flake8-bugbear]
+# FastAPI declares dependencies as default arguments.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query"]

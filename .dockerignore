@@ -1,0 +1,38 @@
+# The API Dockerfile uses the repository root so it can install the shared
+# pulseops_ml package. Keep that context deliberately tiny: source and package
+# metadata only. In particular, never send local credentials, editor settings,
+# datasets, trained artifacts, Git history, or unrelated applications to the
+# Docker daemon.
+*
+
+!apps/
+apps/*
+!apps/api/
+apps/api/*
+!apps/api/Dockerfile
+!apps/api/pyproject.toml
+!apps/api/alembic.ini
+!apps/api/alembic/
+!apps/api/alembic/**
+!apps/api/pulseops_api/
+!apps/api/pulseops_api/**
+
+!ml/
+ml/*
+!ml/pyproject.toml
+!ml/pulseops_ml/
+!ml/pulseops_ml/**
+!ml/reports/
+ml/reports/*
+!ml/reports/metropt3_eval.json
+
+# Defence in depth if the allow-list above is broadened later.
+**/.env
+**/.env.*
+**/secrets/
+**/secrets/**
+**/.git/
+**/__pycache__/
+**/.pytest_cache/
+**/datasets/
+**/model_artifacts/

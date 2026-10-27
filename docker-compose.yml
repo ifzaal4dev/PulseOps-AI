@@ -1,0 +1,85 @@
+# PulseOps AI — docker-compose.
+# PostgreSQL is the default container database; SQLite
+# remains for unit tests and zero-setup local dev outside containers.
+# API startup is non-destructive (migrate + seed-if-empty); reset demo data:
+#   docker compose exec api python -m pulseops_api.init_db --reseed
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=pulseops
+      - POSTGRES_PASSWORD=pulseops
+      - POSTGRES_DB=pulseops
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulseops -d pulseops"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  api:
+    build:
+      context: .                     # repo root: image installs pulseops_ml too
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PULSEOPS_DATABASE_URL=postgresql+psycopg://pulseops:pulseops@postgres:5432/pulseops
+      - PULSEOPS_CORS_ORIGIN=http://localhost:3000
+      - PULSEOPS_ARTIFACTS_DIR=/artifacts
+      # Processed MetroPT-3 dataset for the Replay Lab (host-produced via
+      # `python -m pulseops_ml.ingest`; never baked into the image).
+      - PULSEOPS_METROPT_PARQUET=/data/metropt3.parquet
+      # Hybrid reasoning (server-side only; values come from your shell/.env —
+      # no secret values live in this file, and none reach the frontend).
+      - PULSEOPS_REASONING_MODE=${PULSEOPS_REASONING_MODE:-deterministic}
+      - PULSEOPS_LLM_PROVIDER=${PULSEOPS_LLM_PROVIDER:-gemini}
+      - PULSEOPS_LLM_MODEL=${PULSEOPS_LLM_MODEL:-}
+      - PULSEOPS_LLM_TIMEOUT_SECONDS=${PULSEOPS_LLM_TIMEOUT_SECONDS:-20}
+      - PULSEOPS_LLM_MAX_OUTPUT_TOKENS=${PULSEOPS_LLM_MAX_OUTPUT_TOKENS:-1500}
+      - PULSEOPS_LLM_TEMPERATURE=${PULSEOPS_LLM_TEMPERATURE:-0.1}
+      - PULSEOPS_MAX_DIAGNOSTIC_ROUNDS=${PULSEOPS_MAX_DIAGNOSTIC_ROUNDS:-1}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      # File-based secrets — WORKING EXAMPLE (safer than env values):
+      #   1. put the key in ./secrets/gemini.key (gitignored; never commit)
+      #   2. uncomment the mount in `volumes:` below and this path:
+      #- GEMINI_API_KEY_FILE=/run/secrets/gemini.key
+      #- OPENROUTER_API_KEY_FILE=/run/secrets/openrouter.key
+      - GEMINI_API_KEY_FILE=${GEMINI_API_KEY_FILE:-}
+      - OPENROUTER_API_KEY_FILE=${OPENROUTER_API_KEY_FILE:-}
+      - OPENROUTER_HTTP_REFERER=${OPENROUTER_HTTP_REFERER:-}
+      - OPENROUTER_APP_TITLE=${OPENROUTER_APP_TITLE:-}
+    volumes:
+      # Trained-model artifacts (binary is gitignored; reproduce via
+      # `python -m pulseops_ml.ingest && python -m pulseops_ml.train`).
+      - ./ml/model_artifacts:/artifacts:ro
+      # Processed dataset for replay. NOTE: if the host file does not exist,
+      # Docker creates a DIRECTORY here and the API reports exactly that —
+      # run the ingest on the host first.
+      - ./ml/datasets/processed/metropt3.parquet:/data/metropt3.parquet:ro
+      # External-secret example (pair with GEMINI_API_KEY_FILE above):
+      #- ./secrets/gemini.key:/run/secrets/gemini.key:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - api
+
+volumes:
+  pg-data:
