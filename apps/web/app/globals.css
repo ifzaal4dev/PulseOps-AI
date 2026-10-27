@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-ink-950 text-zinc-200 font-display antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 225, 198, 0.06), transparent),
+    linear-gradient(to bottom, #07090d, #07090d);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0e14;
+}
+::-webkit-scrollbar-thumb {
+  background: #2e3747;
+  border-radius: 5px;
+}
+
+@layer components {
+  .panel {
+    @apply bg-ink-850 border border-ink-700 rounded-xl;
+  }
+  .panel-header {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500;
+  }
+  .stat-value {
+    @apply font-mono text-2xl font-semibold text-zinc-100;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium;
+  }
+}
